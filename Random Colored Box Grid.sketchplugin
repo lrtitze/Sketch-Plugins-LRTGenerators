@@ -1,0 +1,71 @@
+// Generate Random Noise Boxes
+// v.01
+//
+// This command creates a square group of boxes whose colors are randomly selected from three preset colors.
+//
+// The default settings can be adjusted within the script.
+//
+// Copyright (c) 2014 Les R. Titze. All rights reserved.
+// Twitter: @lrtitze
+
+// USER MODIFIABLE
+
+// Set the number of blocks on a side and their size.
+var blockCount = 30;
+var blockSize = 10;
+
+// Default colors
+var darkColor  = [MSColor colorWithRed:0.2 green:0.0 blue:0.0 alpha:1.0];
+var midColor   = [MSColor colorWithRed:0.5 green:0.1 blue:0.1 alpha:1.0];
+var lightColor = [MSColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+
+// CODE FOLLOWS
+
+var colorSet = new Array(darkColor, midColor, lightColor);
+
+// Get current "canvas".
+var page = [doc currentPage],
+    artboard = [[doc currentPage] currentArtboard],
+    currentCanvas = artboard ? artboard : page;
+
+// Adding group layer for blocks.
+var camoPatternGroup = currentCanvas.addLayerOfType("group");
+camoPatternGroup.setName("Camo: " + blockCount + " x " + blockCount);
+
+camoPatternGroup.frame().x = 0;
+camoPatternGroup.frame().y = 0;
+
+camoPatternGroup.frame().width = blockSize*blockCount;
+camoPatternGroup.frame().height = blockSize*blockCount;
+
+for (var row = 0    ; row < blockCount; row++) {
+    for (var col = 0; col < blockCount; col++) {
+        var x = col * blockSize;
+        var y = row * blockSize;
+
+        function addBlock(color,named) {
+            var blockLayer = camoPatternGroup.addLayerOfType("rectangle");
+
+            // Set default style.
+            var style = [[blockLayer style] fills];
+            var stylePart = style.addNewStylePart();
+            stylePart.color = color;
+            stylePart.fillType = 0;
+
+            blockLayer.setName( "Type " + named + ": (" + col+","+row+")");
+
+            var blockLayerFrame = blockLayer.frame();
+
+            blockLayerFrame.setX(x);
+            blockLayerFrame.setY(y);
+
+            blockLayerFrame.setWidth(blockSize);
+            blockLayerFrame.setHeight(blockSize);
+        }
+
+        // choose randomly from the colour set
+        var ix = Math.floor(Math.random()*3);
+
+        addBlock( colorSet[ix], ix);
+    }
+}
