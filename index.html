@@ -36,10 +36,10 @@
 
 <p>For various projects there was a need to create Sketch 3 plugin scripts which could generate object collections. I'll share them with you here since they could be useful or serve as examples for solving your own problems.</p>
 
-<h3>
-<a name="random-colored-box-grid" class="anchor" href="#random-colored-box-grid"><span class="octicon octicon-link"></span></a>Random Colored Box Grid</h3>
+<p><strong>WARNING:</strong> I'm trying to track down a bug that causes Sketch to crash after the second or third time these scripts are run with block counts higher than 63. Be very careful and make sure that you save all of your work before trying to use these with high block counts.</p>
 
-<p><img src="images/RandomNoiseBox.png" alt=""></p>
+<h2>
+<a name="script-1---random-colored-box-grid" class="anchor" href="#script-1---random-colored-box-grid"><span class="octicon octicon-link"></span></a>Script #1 - Random Colored Box Grid</h2>
 
 <p>This command creates a square group of boxes whose colors are randomly selected from three preset colors. The colors, number of squares per side and the size of the squares can be set by modifying the script.</p>
 
@@ -53,8 +53,36 @@ var midColor   = [MSColor colorWithRed:0.5 green:0.1 blue:0.1 alpha:1.0];
 var lightColor = [MSColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
 </code></pre>
 
+<p>As provided, the script generates this group of objects:</p>
+
+<p><img src="http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/RandomNoiseBox.png" alt="">
+<img src="images/RandomNoiseBox.png" alt=""></p>
+
+<h2>
+<a name="script-2---random-colored-bitmap-grid" class="anchor" href="#script-2---random-colored-bitmap-grid"><span class="octicon octicon-link"></span></a>Script #2 - Random Colored Bitmap Grid</h2>
+
+<p>This command creates the same pattern as #1 but inserts a single image bitmap to Sketch instead of a group of shape objects.</p>
+
+<p>This could be a starting point for anyone who wants to draw into an NSImage and place the result into the Sketch document. The idea for this drawing method came from looking at the <em>NSImage Draw Buttons</em> example in the <a href="https://github.com/ccgus/CocoaScript">CocoaScript GitHub repository</a>.</p>
+
+<pre><code>// Set the number of blocks on a side and their size.
+var blockCount = 30;
+var blockSize = 10;
+
+// Default colors
+var darkColor  = [NSColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0];
+var midColor   = [NSColor colorWithRed:0.1 green:0.5 blue:0.1 alpha:1.0];
+var lightColor = [NSColor colorWithRed:0.0 green:0.2 blue:0.0 alpha:1.0];
+</code></pre>
+
+<p>As provided, the script generates this bitmap:</p>
+
+<p><img src="http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/RandomNoiseBitmap.png" alt=""></p>
+
+<hr>
+
 <h3>
-<a name="more-still-to-come" class="anchor" href="#more-still-to-come"><span class="octicon octicon-link"></span></a>More still to come</h3>
+<a name="more-to-come" class="anchor" href="#more-to-come"><span class="octicon octicon-link"></span></a>More to come</h3>
 
 <p>I have a few more of these that will be added soon.</p>
 
