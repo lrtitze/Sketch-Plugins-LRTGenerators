@@ -22,6 +22,25 @@ As provided, the script generates this block:
 ![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/RandomNoiseBox.png)
 
 
+## Script #2 - Bitmap Random Colored Grid
+
+This command creates the same pattern as #1 but creates a single image bitmap instead of a group of shape objects.
+
+```
+// Set the number of blocks on a side and their size.
+var blockCount = 64;
+var blockSize = 10;
+
+// Default colors
+var darkColor  = [NSColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0];
+var midColor   = [NSColor colorWithRed:0.1 green:0.5 blue:0.1 alpha:1.0];
+var lightColor = [NSColor colorWithRed:0.0 green:0.2 blue:0.0 alpha:1.0];
+```
+
+As provided, the script generates this block:
+
+![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/RandomNoiseBitmap.png)
+
 
 ### More still to come
 
