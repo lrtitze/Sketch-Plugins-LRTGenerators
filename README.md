@@ -2,6 +2,8 @@
 
 For various projects there was a need to create Sketch 3 plugin scripts which could generate object collections. I'll share them with you here since they could be useful or serve as examples for solving your own problems.
 
+**WARNING:** I'm trying to track down a bug that causes Sketch to crash after the second or third time these scripts are run with block counts higher than 63. Be very careful and make sure that you save all of your work before trying to use these with high block counts.
+
 ## Script #1 - Random Colored Box Grid
 
 This command creates a square group of boxes whose colors are randomly selected from three preset colors. The colors, number of squares per side and the size of the squares can be set by modifying the script.
