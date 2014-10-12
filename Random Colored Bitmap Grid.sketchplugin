@@ -1,0 +1,88 @@
+// Random Colored Bitmap Grid
+// v.01
+//
+// This command creates a square bitmap image containing boxes whose colors are randomly selected from three preset colors.
+//
+// The default settings can be adjusted within the script.
+//
+// Copyright (c) 2014 Les R. Titze. All rights reserved.
+// Twitter: @lrtitze
+
+
+// USER MODIFIABLE
+
+// Set the number of blocks on a side and their size.
+var blockCount = 30;
+var blockSize = 10;
+
+// Default colors
+var darkColor  = [NSColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0];
+var midColor   = [NSColor colorWithRed:0.1 green:0.5 blue:0.1 alpha:1.0];
+var lightColor = [NSColor colorWithRed:0.0 green:0.2 blue:0.0 alpha:1.0];
+
+// CODE FOLLOWS
+
+// Get current "canvas".
+var page = [doc currentPage],
+    artboard = [[doc currentPage] currentArtboard],
+    currentCanvas = artboard ? artboard : page;
+
+var colorSet = new Array(darkColor, midColor, lightColor);
+
+var imgRect = NSMakeRect(0, 0, blockSize*blockCount, blockSize*blockCount);
+
+
+// Creates a new bitmap image and adds it to the Layer group
+function addImgToCanvas (el, img, layerName) {
+  var imageCollection = el.documentData().images();
+  var imageData = imageCollection.addImage_name_convertColourspace(img, layerName, false);
+  var newImage = MSBitmapLayer.alloc().initWithImage_parentFrame_name(imageData, el.frame(), layerName);
+  el.addLayer(newImage);
+  return newImage;
+}
+
+
+function drawInImage(img, f) {
+  [img lockFocus]
+  f();
+  [img unlockFocus];
+}
+
+
+function makePatternBlock(size) {
+  var img = [NSImage imageWithSize:size];
+  var littleBox = NSMakeRect(0, 0, blockSize, blockSize);
+
+  drawInImage(img, function() {
+    var x = 0;
+    var y = 0;
+    var ix = 0;
+    var color = colorSet[ix];
+
+    for (var row = 0    ; row < blockCount; row++) {
+      for (var col = 0; col < blockCount; col++) {
+        x = col * blockSize;
+        y = row * blockSize;
+        littleBox.origin.x = x;
+        littleBox.origin.y = y;
+
+        // choose randomly from the colour set
+        ix = Math.floor(Math.random()*3);
+
+        color = colorSet[ix];
+        [color set];
+        [NSBezierPath fillRect:littleBox];
+      }
+    }
+  });
+
+  return img;
+}
+
+var pattImage = makePatternBlock(imgRect.size);
+
+var layerName = 'Pattern ' + blockCount + " x " + blockCount;
+var layer = addImgToCanvas(currentCanvas, pattImage, layerName);
+var frame = layer.frame();
+frame.setX(0);
+frame.setY(0);
