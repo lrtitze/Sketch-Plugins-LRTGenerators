@@ -51,7 +51,9 @@ As provided, the script generates this bitmap:
 
 ### More to come
 
-I have a few more of these that will be added soon.
+I have a few more similar plugins to add soon.
+
+When there's extra time I'll add a UI for setup (or leave it as an exercise for the reader.)
 
 ### Contact
 On App.net or Twitter I can be found at: lrtitze
