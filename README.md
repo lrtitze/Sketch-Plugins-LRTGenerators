@@ -2,7 +2,7 @@
 
 For various projects there was a need to create Sketch 3 plugin scripts which could generate object collections. I'll share them with you here since they could be useful or serve as examples for solving your own problems.
 
-**WARNING:** I'm trying to track down a bug that causes Sketch to crash after the second or third time these scripts are run with block counts higher than 50. Be very careful and make sure that you save all of your work before trying to use these with high block counts.
+**WARNING:** I'm trying to track down a bug that causes Sketch 3.1 (8751) to crash after the second or third time these scripts are run with block counts higher than 50. Be very careful and make sure that you save all of your work before trying to use these with high block counts.
 
 This bug may be related to an [issue currently under investigation](https://github.com/ccgus/CocoaScript/issues/8) in the CocoaScript Github repository.
 
