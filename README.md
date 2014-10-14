@@ -23,7 +23,7 @@ var lightColor = [MSColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
 
 As provided, the script generates this group of objects:
 
-![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/RandomNoiseBox.png)
+![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/script-noise-box.png)
 
 
 ## Script #2 - Random Colored Bitmap Grid
@@ -45,7 +45,7 @@ var lightColor = [NSColor colorWithRed:0.0 green:0.2 blue:0.0 alpha:1.0];
 
 As provided, the script generates this bitmap:
 
-![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/RandomNoiseBitmap.png)
+![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/script-noise-bit.png)
 
 ---
 
