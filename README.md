@@ -6,6 +6,8 @@ For various projects there was a need to create Sketch 3 plugin scripts which co
 
 This bug may be related to an [issue currently under investigation](https://github.com/ccgus/CocoaScript/issues/8) in the CocoaScript Github repository.
 
+**UPDATE: Oct 16, 2014** In a [forum message](http://mail.sketchplugins.com/pipermail/dev_sketchplugins.com/2014-October/000772.html), Ale Muñoz from Bohemian Coding has indicated that this issue is being actively worked on. 
+
 ## Script #1 - Random Colored Box Grid
 
 This command creates a square group of boxes whose colors are randomly selected from three preset colors. The colors, number of squares per side and the size of the squares can be set by modifying the script.
