@@ -49,6 +49,25 @@ As provided, the script generates this bitmap:
 
 ![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/script-noise-bit.png)
 
+
+## Script #3 - Terrain Heightmap Grid
+
+This command creates a height map pattern and inserts it as an image bitmap to Sketch.
+
+The algorithm used for this is based on [this article](http://www.playfuljs.com/realistic-terrain-in-130-lines/).
+
+```
+var blockSize = 10;
+var roughness = 0.75; // larger values for more scattering
+var detail = 5;       // number of blocks per side will be 1 + 2^detail
+```
+
+**WARNING:** Until the bug mentioned above is fixed, refrain from using values of *detail* greater than 5.
+
+As provided, the script generates a bitmap similar to this:
+
+![](http://lrtitze.github.io/Sketch-Plugins-LRTGenerators/images/script-terrain.png)
+
 ---
 
 ### More to come

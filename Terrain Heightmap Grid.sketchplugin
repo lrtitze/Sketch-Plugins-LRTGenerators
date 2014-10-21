@@ -1,0 +1,171 @@
+// Terrain Heightmap Grid
+// v.03
+//
+// This command creates a square bitmap image containing a random heightmap.
+//
+// The default settings can be adjusted within the script.
+//
+// Based on the original article:
+//    http://www.playfuljs.com/realistic-terrain-in-130-lines/
+//
+// Copyright (c) 2014 Les R. Titze. All rights reserved.
+// Twitter: @lrtitze
+
+
+// USER MODIFIABLE
+
+var blockSize = 10;
+var roughness = 0.75; // larger values for more scattering
+var detail = 5; // number of blocks per side will be 1 + 2^detail
+
+
+// CODE FOLLOWS
+
+var blockCount = Math.pow(2, detail) + 1;
+
+
+// Get current "canvas".
+var page = [doc currentPage],
+    artboard = [[doc currentPage] currentArtboard],
+    currentCanvas = artboard ? artboard : page;
+
+var imgRect = NSMakeRect(0, 0, blockSize*blockCount, blockSize*blockCount);
+
+
+
+function Terrain(detail) {
+  this.size = Math.pow(2, detail) + 1;
+  this.max = this.size - 1;
+  this.map = new Array(this.size * this.size);
+  // this.map = new Float32Array(this.size * this.size);
+}
+
+Terrain.prototype.get = function(x, y) {
+  if (x < 0 || x > this.max || y < 0 || y > this.max) return -1;
+  return this.map[x + this.size * y];
+};
+
+Terrain.prototype.set = function(x, y, val) {
+  this.map[x + this.size * y] = val;
+};
+
+Terrain.prototype.generate = function(roughness) {
+  var self = this;
+
+  this.set(       0,        0, self.max);
+  this.set(this.max,        0, self.max / 2);
+  this.set(this.max, this.max, 0);
+  //this.set(this.max, this.max, self.max / 2);
+  this.set(       0, this.max, self.max / 2);
+
+  divide(this.max);
+
+  function divide(size) {
+    var x, y, half = size / 2;
+    var scale = roughness * size;
+    if (half < 1) return;
+
+    for (y = half; y < self.max; y += size) {
+      for (x = half; x < self.max; x += size) {
+        square(x, y, half, Math.random() * scale * 2 - scale);
+      }
+    }
+    for (y = 0; y <= self.max; y += half) {
+      for (x = (y + half) % size; x <= self.max; x += size) {
+        diamond(x, y, half, Math.random() * scale * 2 - scale);
+      }
+    }
+
+    divide(size / 2);
+  }
+
+  function average(values) {
+    var valid = values.filter(function(val) { return val !== -1; });
+    var total = valid.reduce(function(sum, val) { return sum + val; }, 0);
+    return total / valid.length;
+  }
+
+  function square(x, y, size, offset) {
+    var ave = average([
+      self.get(x - size, y - size),   // upper left
+      self.get(x + size, y - size),   // upper right
+      self.get(x + size, y + size),   // lower right
+      self.get(x - size, y + size)    // lower left
+    ]);
+    self.set(x, y, ave + offset);
+  }
+
+  function diamond(x, y, size, offset) {
+    var ave = average([
+      self.get(x, y - size),      // top
+      self.get(x + size, y),      // right
+      self.get(x, y + size),      // bottom
+      self.get(x - size, y)       // left
+    ]);
+    self.set(x, y, ave + offset);
+  }
+};
+
+
+Terrain.prototype.draw = function(size, img) {
+  var self = this;
+  log("draw");
+
+  //var img = [NSImage imageWithSize:size];
+  var littleBox = NSMakeRect(0, 0, blockSize, blockSize);
+
+  var x = 0;
+  var y = 0;
+  var ix = 0;
+  var level = 0.0;
+  var useColor = [NSColor colorWithRed:0 green:0 blue:0 alpha:1.0];
+
+  [img lockFocus]
+
+    for (var row = 0; row < this.size; row++) {
+      for (var col = 0; col < this.size; col++) {
+        x = col * blockSize;
+        y = row * blockSize;
+        littleBox.origin.x = x;
+        littleBox.origin.y = y;
+
+        level = (this.get(col, row)) / this.max;
+
+        useColor = [NSColor colorWithWhite:level alpha:1.0];
+
+        [useColor set];
+        [NSBezierPath fillRect:littleBox];
+      }
+    }
+
+  [img unlockFocus];
+
+  return img;
+}
+
+
+// Creates a new bitmap image and adds it to the Layer group
+function addImgToCanvas (el, img, layerName) {
+  var imageCollection = el.documentData().images();
+  var imageData = imageCollection.addImage_name_convertColourspace(img, layerName, false);
+  var newImage = MSBitmapLayer.alloc().initWithImage_parentFrame_name(imageData, el.frame(), layerName);
+  el.addLayer(newImage);
+  return newImage;
+}
+
+
+
+var terrain = new Terrain(detail);
+terrain.generate(roughness); // 0.7
+
+log ("imgRect.size is: " + imgRect.size);
+var img = [NSImage imageWithSize:imgRect.size];
+
+var pattImage = terrain.draw(imgRect.size, img);
+
+var layerName = 'Pattern ' + blockCount + " x " + blockCount;
+var layer = addImgToCanvas(currentCanvas, pattImage, layerName);
+var frame = layer.frame();
+frame.setX(0);
+frame.setY(0);
+
